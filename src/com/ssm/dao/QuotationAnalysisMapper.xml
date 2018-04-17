@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.dao.QuotationAnalysisMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.domain.QuotationAnalysis" >
+    <id column="part_number" property="partNumber" jdbcType="BIGINT" />
+    <result column="part_date" property="partDate" jdbcType="DATE" />
+    <result column="drawing_no_issue" property="drawingNoIssue" jdbcType="VARCHAR" />
+    <result column="part_name" property="partName" jdbcType="VARCHAR" />
+    <result column="yearly_volume" property="yearlyVolume" jdbcType="BIGINT" />
+    <result column="payment_terms" property="paymentTerms" jdbcType="VARCHAR" />
+    <result column="delivery_conditions" property="deliveryConditions" jdbcType="VARCHAR" />
+    <result column="point_of_delivery" property="pointOfDelivery" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="parma_code" property="parmaCode" jdbcType="INTEGER" />
+    <result column="source_country" property="sourceCountry" jdbcType="VARCHAR" />
+    <result column="local_currency" property="localCurrency" jdbcType="VARCHAR" />
+    <result column="buyer" property="buyer" jdbcType="VARCHAR" />
+    <result column="cost_engineer" property="costEngineer" jdbcType="DOUBLE" />
+    <result column="misc_information" property="miscInformation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    part_number, part_date, drawing_no_issue, part_name, yearly_volume, payment_terms, 
+    delivery_conditions, point_of_delivery, supplier_name, parma_code, source_country, 
+    local_currency, buyer, cost_engineer, misc_information
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.domain.QuotationAnalysisExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from quotation_analysis
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from quotation_analysis
+    where part_number = #{partNumber,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from quotation_analysis
+    where part_number = #{partNumber,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.domain.QuotationAnalysisExample" >
+    delete from quotation_analysis
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.domain.QuotationAnalysis" >
+    insert into quotation_analysis (part_number, part_date, drawing_no_issue, 
+      part_name, yearly_volume, payment_terms, 
+      delivery_conditions, point_of_delivery, supplier_name, 
+      parma_code, source_country, local_currency, 
+      buyer, cost_engineer, misc_information
+      )
+    values (#{partNumber,jdbcType=BIGINT}, #{partDate,jdbcType=DATE}, #{drawingNoIssue,jdbcType=VARCHAR}, 
+      #{partName,jdbcType=VARCHAR}, #{yearlyVolume,jdbcType=BIGINT}, #{paymentTerms,jdbcType=VARCHAR}, 
+      #{deliveryConditions,jdbcType=VARCHAR}, #{pointOfDelivery,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
+      #{parmaCode,jdbcType=INTEGER}, #{sourceCountry,jdbcType=VARCHAR}, #{localCurrency,jdbcType=VARCHAR}, 
+      #{buyer,jdbcType=VARCHAR}, #{costEngineer,jdbcType=DOUBLE}, #{miscInformation,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.domain.QuotationAnalysis" >
+    insert into quotation_analysis
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="partNumber != null" >
+        part_number,
+      </if>
+      <if test="partDate != null" >
+        part_date,
+      </if>
+      <if test="drawingNoIssue != null" >
+        drawing_no_issue,
+      </if>
+      <if test="partName != null" >
+        part_name,
+      </if>
+      <if test="yearlyVolume != null" >
+        yearly_volume,
+      </if>
+      <if test="paymentTerms != null" >
+        payment_terms,
+      </if>
+      <if test="deliveryConditions != null" >
+        delivery_conditions,
+      </if>
+      <if test="pointOfDelivery != null" >
+        point_of_delivery,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="parmaCode != null" >
+        parma_code,
+      </if>
+      <if test="sourceCountry != null" >
+        source_country,
+      </if>
+      <if test="localCurrency != null" >
+        local_currency,
+      </if>
+      <if test="buyer != null" >
+        buyer,
+      </if>
+      <if test="costEngineer != null" >
+        cost_engineer,
+      </if>
+      <if test="miscInformation != null" >
+        misc_information,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="partNumber != null" >
+        #{partNumber,jdbcType=BIGINT},
+      </if>
+      <if test="partDate != null" >
+        #{partDate,jdbcType=DATE},
+      </if>
+      <if test="drawingNoIssue != null" >
+        #{drawingNoIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="partName != null" >
+        #{partName,jdbcType=VARCHAR},
+      </if>
+      <if test="yearlyVolume != null" >
+        #{yearlyVolume,jdbcType=BIGINT},
+      </if>
+      <if test="paymentTerms != null" >
+        #{paymentTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryConditions != null" >
+        #{deliveryConditions,jdbcType=VARCHAR},
+      </if>
+      <if test="pointOfDelivery != null" >
+        #{pointOfDelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="parmaCode != null" >
+        #{parmaCode,jdbcType=INTEGER},
+      </if>
+      <if test="sourceCountry != null" >
+        #{sourceCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="localCurrency != null" >
+        #{localCurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer != null" >
+        #{buyer,jdbcType=VARCHAR},
+      </if>
+      <if test="costEngineer != null" >
+        #{costEngineer,jdbcType=DOUBLE},
+      </if>
+      <if test="miscInformation != null" >
+        #{miscInformation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.domain.QuotationAnalysisExample" resultType="java.lang.Integer" >
+    select count(*) from quotation_analysis
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update quotation_analysis
+    <set >
+      <if test="record.partNumber != null" >
+        part_number = #{record.partNumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.partDate != null" >
+        part_date = #{record.partDate,jdbcType=DATE},
+      </if>
+      <if test="record.drawingNoIssue != null" >
+        drawing_no_issue = #{record.drawingNoIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partName != null" >
+        part_name = #{record.partName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearlyVolume != null" >
+        yearly_volume = #{record.yearlyVolume,jdbcType=BIGINT},
+      </if>
+      <if test="record.paymentTerms != null" >
+        payment_terms = #{record.paymentTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryConditions != null" >
+        delivery_conditions = #{record.deliveryConditions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pointOfDelivery != null" >
+        point_of_delivery = #{record.pointOfDelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parmaCode != null" >
+        parma_code = #{record.parmaCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourceCountry != null" >
+        source_country = #{record.sourceCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.localCurrency != null" >
+        local_currency = #{record.localCurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyer != null" >
+        buyer = #{record.buyer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costEngineer != null" >
+        cost_engineer = #{record.costEngineer,jdbcType=DOUBLE},
+      </if>
+      <if test="record.miscInformation != null" >
+        misc_information = #{record.miscInformation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update quotation_analysis
+    set part_number = #{record.partNumber,jdbcType=BIGINT},
+      part_date = #{record.partDate,jdbcType=DATE},
+      drawing_no_issue = #{record.drawingNoIssue,jdbcType=VARCHAR},
+      part_name = #{record.partName,jdbcType=VARCHAR},
+      yearly_volume = #{record.yearlyVolume,jdbcType=BIGINT},
+      payment_terms = #{record.paymentTerms,jdbcType=VARCHAR},
+      delivery_conditions = #{record.deliveryConditions,jdbcType=VARCHAR},
+      point_of_delivery = #{record.pointOfDelivery,jdbcType=VARCHAR},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      parma_code = #{record.parmaCode,jdbcType=INTEGER},
+      source_country = #{record.sourceCountry,jdbcType=VARCHAR},
+      local_currency = #{record.localCurrency,jdbcType=VARCHAR},
+      buyer = #{record.buyer,jdbcType=VARCHAR},
+      cost_engineer = #{record.costEngineer,jdbcType=DOUBLE},
+      misc_information = #{record.miscInformation,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.domain.QuotationAnalysis" >
+    update quotation_analysis
+    <set >
+      <if test="partDate != null" >
+        part_date = #{partDate,jdbcType=DATE},
+      </if>
+      <if test="drawingNoIssue != null" >
+        drawing_no_issue = #{drawingNoIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="partName != null" >
+        part_name = #{partName,jdbcType=VARCHAR},
+      </if>
+      <if test="yearlyVolume != null" >
+        yearly_volume = #{yearlyVolume,jdbcType=BIGINT},
+      </if>
+      <if test="paymentTerms != null" >
+        payment_terms = #{paymentTerms,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryConditions != null" >
+        delivery_conditions = #{deliveryConditions,jdbcType=VARCHAR},
+      </if>
+      <if test="pointOfDelivery != null" >
+        point_of_delivery = #{pointOfDelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="parmaCode != null" >
+        parma_code = #{parmaCode,jdbcType=INTEGER},
+      </if>
+      <if test="sourceCountry != null" >
+        source_country = #{sourceCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="localCurrency != null" >
+        local_currency = #{localCurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="buyer != null" >
+        buyer = #{buyer,jdbcType=VARCHAR},
+      </if>
+      <if test="costEngineer != null" >
+        cost_engineer = #{costEngineer,jdbcType=DOUBLE},
+      </if>
+      <if test="miscInformation != null" >
+        misc_information = #{miscInformation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where part_number = #{partNumber,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.domain.QuotationAnalysis" >
+    update quotation_analysis
+    set part_date = #{partDate,jdbcType=DATE},
+      drawing_no_issue = #{drawingNoIssue,jdbcType=VARCHAR},
+      part_name = #{partName,jdbcType=VARCHAR},
+      yearly_volume = #{yearlyVolume,jdbcType=BIGINT},
+      payment_terms = #{paymentTerms,jdbcType=VARCHAR},
+      delivery_conditions = #{deliveryConditions,jdbcType=VARCHAR},
+      point_of_delivery = #{pointOfDelivery,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      parma_code = #{parmaCode,jdbcType=INTEGER},
+      source_country = #{sourceCountry,jdbcType=VARCHAR},
+      local_currency = #{localCurrency,jdbcType=VARCHAR},
+      buyer = #{buyer,jdbcType=VARCHAR},
+      cost_engineer = #{costEngineer,jdbcType=DOUBLE},
+      misc_information = #{miscInformation,jdbcType=VARCHAR}
+    where part_number = #{partNumber,jdbcType=BIGINT}
+  </update>
+  
+   <!-- 添加的id对应的接口里面的方法名，没有参数，有返回值，把id=BaseResultMap写入resultMap中 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  select * from quotation_analysis
+  </select>
+</mapper>

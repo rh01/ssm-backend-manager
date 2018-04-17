@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/jquery.js"></script>
+    <script src="./bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.css">
+    <style>
+        @media (min-width: 1200px){
+            .container {
+                width: 1470px;
+            }
+        }
+        #header{
+            font-size: 25px;
+            text-align: center;
+        }
+        #title{
+            font-size: 24px;
+            text-align: center;
+        }
+        #main div p button{
+            float: right;
+        }
+        #main div p{
+            text-align: center;
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+<div id="header">VOLVO</div>
+<div id="title">Material and Process Breakdown</div>
+<div id="main" class="container">
+    <div id="part1">
+        <p> Standard Parts
+            <button class="btn btn-info">AddRow</button>
+        </p>
+        <table class="table table-bordered table-hover">
+        </table>
+    </div>
+    <div id="part2">
+        <p> Raw Material 原材料
+            <button class="btn btn-info">AddRow</button>
+        </p>
+        <table class="table table-bordered table-hover">
+        </table>
+    </div>
+    <div id="part3">
+        <p> Purchased Parts or External Operations
+            <button class="btn btn-info">AddRow</button>
+        </p>
+        <table class="table table-bordered table-hover">
+        </table>
+    </div>
+    <div id="part4">
+        <p> Process Cost Melting ( if cost is calculated in Kg)
+            <button class="btn btn-info">AddRow</button>
+        </p>
+        <table class="table table-bordered table-hover">
+        </table>
+    </div>
+    <div id="part5">
+        <p> Process Cost Details
+            <button class="btn btn-info">AddRow</button>
+        </p>
+        <table class="table table-bordered table-hover">
+        </table>
+    </div>
+    <div id="footer">
+        Supplier name:Hubei Shenli Forging Co.,Ltd  Part name:Front beam
+    </div>
+</div>
+<script>
+    /* 事件处理函数绑定，这里绑定的是一个匿名函数 */
+    window.onload = function () {
+    var table1 = document.querySelector('#part1 table');
+    var th1 = ['Supplier','Description','Tier 2, 3, or 4?','Country of Origin','Currency','Exchange Rate','Actual Purchased Parts Cost (Each)','Number of Parts per End Item','Bought In Cost','Purchasing O/H (%)','Price per Unit'];
+    var table2 = document.querySelector('#part2 table');
+    var th2 = ['Raw Material','Desc./Type/Grade/Alloy','Economics - Materia','Country of Origin','Currency','Exchange Rate','Unit of Measure','Base Price per UoM','Alloy Surcharge per UoM','Gross Usage for Volvo','Net Usage for Volvo','Bought In Cost','Metal loss or similar(%)','Purchasing O/H(%)',' Price per Unit'];
+    var table3 = document.querySelector('#part3 table');
+    var th3 = ['Purchased Parts or External Operations','Description','Country of Origin','Currency','Exchange Rate','Unit of Measure','Actual Purchased Parts Cost (Each)','Number of Parts per End Item','Bought In Cost','SG&A(%)','Profit(%)',' Price per Unit'];
+    var table4 = document.querySelector('#part4 table');
+    var th4 = ['Machine/ Equipment Investment Cost','No of years used for Depreciation','No of Shifts','Process Description','Net Weight','Factor in(%)','Gross Weight (Melting Weight)','','Melting Cost / kg','','Melting Cost','','','SG&A(%)','Sum','Profit(%)','Total cost'];
+    var table5 = document.querySelector('#part5 table');
+    var th5 = ['Machine/ Equipment Investment Cost','No of years used for Depreciation','No of Shifts','Process Description工序','Heads Direct Labor人员数量','Parts per Hour (No./Hr.)小时产能','Dir.Labor Fully Fringed (rate/hour)直接工人小时工资','Ind.Labor Fully Fringed (rate/hour)间接工人小时工资','Dir._ Labor Fully Fringed直接工人每件产品工资','Ind._ Labor Fully Fringed 间接工人每件产品工资 ','Fixed\n' +
+    'Mfg. O/H (rate/hour)设备折旧/小时','Variable Mfg. O/H (rate/hour)生产管理成本/小时','Tot.Mfg. O/H Cost总设备成本/小时','Process Scrap(%)废品率',' Price per Unit单件总人工成本','SG&A(%)一般管理成本','Sum合计','Profit (%)利润率','Total cost总成本'];
+    createTable(th1,5,table1);
+    createTable(th2,5,table2);
+    createTable(th3,5,table3);
+    createTable(th4,5,table4);
+    createTable(th5,5,table5);
+    var button = document.querySelectorAll('.btn btn-info');
+    button.forEach(function (item) {
+        var grandPa = item.parentElement.parentElement;
+        var classNum = grandPa.className;
+        item.addEventListener('click',function () {
+            addARow(classNum);
+        })
+    });
+    function createTable(setTh,trNum,table) {
+        var tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        var row1 = document.createElement('tr');
+        tbody.appendChild(row1);
+        var th;
+        setTh.forEach(function (item) {
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode(item));
+            row1.appendChild(th);
+        });
+        tbody.appendChild(row1);
+        addDbListen(tbody.rows[0]);
+        for(var i=1;i<=trNum;i++){
+            tbody.insertRow(i);
+            for(var j=0,len = setTh.length;j<len;j++){
+                addDbListen(tbody.rows[i]);
+                tbody.rows[i].insertCell(j);
+                tbody.rows[i].cells[j].setAttribute('name',setTh[j]);
+            }
+        }
+    }
+    function addDbListen(ele) {
+        var count = 0;
+        var a = ele;
+        a.setAttribute('contenteditable',false);
+        a.addEventListener('click',function(){
+            count++;
+            setTimeout(function(){
+                if(count===1){console.log('click1');count=0};
+                if(count===2){a.setAttribute('contenteditable',true)}
+            },300);
+            console.log(count);
+        })
+        a.addEventListener('blur',function(){
+            count=0;
+            a.setAttribute('contenteditable',false);
+        })
+    }
+    function addARow(classNum) {
+        var length = document.querySelectorAll(classNum+' table tbody th').length;
+        var tbody = document.querySelector(classNum+' table tbody');
+        var row = document.createElement('tr');
+        var td;
+        for(var i=0;i<length;i++){
+            td = document.createElement('td');
+            row.appendChild(td);
+        }
+        tbody.appendChild(row);
+    }
+}
+
+
+</script>
+</body>
+</html>

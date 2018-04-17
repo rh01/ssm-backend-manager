@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+	 
+	   <context:component-scan base-package="com.ssm"></context:component-scan>
+		
+		
+		<!-- 配置注解处理器映射器 功能：寻找执行类Controller
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+		配置注解处理器适配器 功能：调用controller方法，执行controller
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean> -->
+	
+		<!-- mvc:annotation-driven使用注解功能 -->    
+		<mvc:annotation-driven>    
+    		<mvc:message-converters register-defaults="true">    
+        		<!--json处理-->    
+        		<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">    
+            		<property name="supportedMediaTypes">    
+                		<list>    
+                    		<value>application/json;charset=UTF-8</value>    
+                    		<value>text/html;charset=UTF-8</value>    
+                		</list>    
+            		</property>    
+        		</bean>    
+    		</mvc:message-converters>    
+		</mvc:annotation-driven>
+		<!-- annotation-driven:默认创建了多个对象：RequestMappingHandlerMapping，RequestMappingHandlerAdapter
+		也就提供对json格式支持-->
+	    <mvc:annotation-driven/>
+		
+		
+		<!-- 配置sprigmvc视图解析器：解析逻辑试图 
+			 后台返回逻辑试图：index
+			视图解析器解析出真正物理视图：前缀+逻辑试图+后缀====/WEB-INF/jsps/index.jsp
+		-->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsps/"></property>
+		<property name="suffix" value=".jsp"></property>		
+		</bean>
+		
+		<!-- 配置文件上传解析器  跨服务器上传要有id，必须是这个值和后面对应-->
+		<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10240000"></property>
+		</bean> -->
+		
+		<!--拦截器 -->
+		<!-- <mvc:interceptors>
+			多个拦截器,顺序执行
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<bean class="com.ssm.interceptor.Interceptor1"></bean>
+			</mvc:interceptor>
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<bean class="com.ssm.interceptor.Interceptor2"></bean>
+			</mvc:interceptor>
+		</mvc:interceptors>	 -->
+		</beans>
